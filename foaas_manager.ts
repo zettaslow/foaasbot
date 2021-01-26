@@ -2,11 +2,6 @@ import { firstLevelEnums } from "./enums/enums";
 
 const nodefetch = require('node-fetch');
 
-// hits a targeted foaas level 1 route and returns the output.
-function foaasRequest(route: string, author: string): string {
-  return ""
-}
-
 function randomEnum<T>(enumVal: T): T[keyof T] {
   const enumValues = Object.keys(enumVal).map(n => Number.parseInt(n)).filter(n => !Number.isNaN(n)) as unknown as T[keyof T][]
 
@@ -27,11 +22,15 @@ async function foaasRequestRandom(author: string): Promise<string> {
   return message;
 }
 
-async function testFoaasRequest(): Promise<string> {
-  const response = await nodefetch('https://foaas.com/version', { method: 'get', headers: {'Accept': 'application/json'}})
+// hits a targeted foaas level 1 route and returns the output.
+async function foaasRequest(route: string, author: string): Promise<string> {
+
+  let apiPath = 'https://foaas.com/' + route + '/' + author;
+
+  const response = await nodefetch(apiPath, { method: 'get', headers: {'Accept': 'application/json'}})
   const message = await response.json();
   return message;
 }
 
-module.exports.testFoaasRequest = testFoaasRequest
 module.exports.foaasRequestRandom = foaasRequestRandom
+module.exports.foaasRequest = foaasRequest

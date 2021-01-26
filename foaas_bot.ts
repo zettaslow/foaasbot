@@ -27,21 +27,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
        
         args = args.splice(1);
         switch(cmd) {
-            // !ping
-            case 'ping':
-                {
-                    bot.sendMessage({
-                        to: channelID,
-                        message: 'Pong!'
-                    });
-                }
-                break;
             case 'foaas':
                 {
-                    foaasManager.testFoaasRequest().then((versionData) => {
+                    foaasManager.foaasRequest(args[0], user).then((foaasData) => {
                         bot.sendMessage({
                             to: channelID,
-                            message: versionData.message
+                            message: foaasData.message + " " + foaasData.subtitle
                         });
                     });
                     break;
